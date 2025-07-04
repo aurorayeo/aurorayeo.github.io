@@ -1,0 +1,95 @@
+<HTML>
+<HEAD>
+<TITLE>Sitio Web de M.A.F.</TITLE>
+</HEAD>
+<BODY bgcolor= "#81bdc8">
+<FONT COLOR="BLACK" FACE="TIMES NEW ROMAN">
+<CENTER><H1><FONT COLOR="572560">Práctica: Control Remoto</FONT></H1></CENTER>
+<HR SIZE=2 WIDTH="50%" ALIGN="CENTER" COLOR="#7a3685">
+<BR>
+<FONT SIZE=4 FACE="TIMES NEW ROMAN">
+<P ALIGN="JUSTIFY">
+<B>Teoría:</B> El llamado mando a distancia controla diferentes dispositivos electrónicos y eléctricos para que realicen ciertas acciones.
+La luz emitida por el control es infrarroja, una frecuencia que esta debajo de la sensibilidad de nuestros ojos y es imperceptible.
+Nosotros usaremos un control con menor alcance (10m) con una luz infrarroja (luz que trabaja a una frecuencia menor a la que nuestros ojos pueden ver).
+<BR><BR>
+<B>Reto:</B> Mover el robot BEETBOT con el control remoto para realizar una comunicación por infrarrojo y así poder decirle al robot a distancia que se mueva hacia adelante,
+atrás, derecha e izquierda.
+<BR><BR>
+<B>Código:</B>
+<BR>
+<B>IRremote</B> La librería IRremote es una herramienta que permite la recepción de señales infrarrojas, por lo cual la ocuparemos.
+<BR><BR>
+<IMG SRC= "imagenesMAF/irremotelogo.png" HEIGHT=200 WIDTH=350>
+<BR>
+Para empezar añadimos la librería para poder comunicarnos con nuestro control remoto
+<BR><BR>
+<IMG SRC= "imagenesMAF/irremotecodigo.png" HEIGHT=200 WIDTH=350>
+<BR>
+
+<B>Condiciones nuevas:</B> Los botones de dirección de nuestro control tienen un número identificador para saber cuál se presionó.
+Se presentan dos opciones para mejorar el uso del control, posteriormente activaremos el pin del receptor IR.
+<BR><BR>
+<IMG SRC= "imagenesMAF/codigo1.png" HEIGHT=200 WIDTH=350>
+<BR><BR>
+Cada línea define un código IR (de infrarrojo) que representa un botón específico del control remoto.
+Cuando tú presionas un botón como “adelante” en el control, el receptor capta un número, y ese número es lo que el Arduino usa para saber qué acción debe ejecutar.
+<UL>
+<LI> #define es una orden para darle un nombre al número, así es más fácil usarlo en el programa.
+<LI> Se definen dos series de códigos (adelante y adelante_2) por si se usa otro control o si el control tiene modos distintos.
+</UL>
+
+
+<BR>
+<IMG SRC= "imagenesMAF/codigo2.png" HEIGHT=200 WIDTH=350>
+<UL>
+<LI> <B> #define RECV_PIN 9:</B>  El sensor infrarrojo va conectado al pin digital 9 del Arduino.
+<LI> <B>IRrecv irrecv(...):</B> Se crea un objeto llamado irrecv que recibe las señales del control.
+<LI> <B>decode_results results:</B>  Variable donde se guardan los datos del botón presionado.
+<LI> <B>valor:</B>  Guardará el número exacto que manda el control.
+<LI> <B>preMillis:</B> Se usará para medir el tiempo transcurrido, útil para seguridad o pausas.
+</UL>
+<BR>
+
+<LEFT><B>Condición Switch (case): </B> Esta decide que acción debe hacer el robot al detectar el código del infrarrojo.</LEFT>
+<BR><BR>
+<IMG SRC= "imagenesMAF/codigo3.png" HEIGHT=200 WIDTH=350>
+<BR><BR>
+Este bloque es un “menú de decisiones”. El Arduino revisa el valor recibido del control, y según el código que sea, ejecuta la función correspondiente:
+<UL>
+<LI> Si el valor es igual a adelante o adelante_2, se llama la función ADELANTE()
+<LI> Si es igual a atras o atras_2, se ejecuta ATRAS()
+<LI> Lo mismo con IZQUIERDA(), DERECHA(), etc.
+</UL>
+Cada función (ADELANTE(), ATRAS(), etc.) contiene las instrucciones que hacen que el robot se mueva en esa dirección.
+
+<BR><BR>
+<IMG SRC= "imagenesMAF/codigo4.png" HEIGHT=200 WIDTH=350>
+<BR><BR>
+Esta parte del código, evita que el robot siga moviéndose si no se recibe otro comando en 200 milisegundos.
+<UL>
+<LI> millis() cuenta el tiempo en milisegundos desde que se encendió el Arduino.
+<LI> Si pasan más de 200 ms sin una nueva señal → ejecuta DETENERSE()
+<LI> Después, actualiza preMillis al tiempo actual.
+</UL>
+<BR><BR>
+<B>Funcionamiento del Control Infrarrojo KEYES :</B> Con este control se envían comandos al robot mediante señales infrarrojas. Cada botón tiene un código único que el Arduino reconoce para ejecutar una acción, como se mencionaba anteriormente:
+<BR><BR>
+<IMG SRC= "imagenesMAF/controlpractica.png" HEIGHT=200 WIDTH=350>
+<UL>
+<LI> Flecha arriba → Avanza (ADELANTE())
+<LI> Flecha abajo → Retrocede (ATRAS())
+<LI> Izquierda → Gira a la izquierda (IZQUIERDA())
+<LI> Derecha → Gira a la derecha (DERECHA())
+</UL>
+<CENTER><H2><FONT COLOR="572560">Resultado de la Práctica</FONT></H2></CENTER>
+ <center><video width="640" height="360" controls>
+ <source src="imagenesMAF/video.mp4" type="video/mp4">
+  Tu navegador no soporta la reproducción de video.
+</video>
+</center>
+<BR><BR>
+</P>
+</FONT>
+</BODY>
+</HTML>
